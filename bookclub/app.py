@@ -14,6 +14,22 @@ def resp(status, data=None):
     return jsonify(dict(status = status,
                         data = data if data else {}))
 
+def has_no_empty_params(rule):
+    defaults = rule.defaults if rule.defaults is not None else ()
+    arguments = rule.arguments if rule.arguments is not None else ()
+    return len(defaults) >= len(arguments)
+
+def get_all_links():
+    links = []
+    for rule in app.url_map.iter_rules():
+        # Filter out rules we can't navigate to in a browser
+        # and rules that require parameters
+        if "GET" in rule.methods and has_no_empty_params(rule):
+            url = url_for(rule.endpoint, **(rule.defaults or {}))
+            links.append(url)
+    return links
+
+
 @auth_provider.verify_password
 def verify_password(username_or_token, password):
     if auth.verify_auth_token(app, username_or_token):
@@ -58,5 +74,8 @@ def user(id_):
                                            username = user.name))
     else:
         return resp("user not found"), 404
-        
+
+@app.route("/", methods=['GET'])
+def index():
+    return resp('available urls', dict(links = get_all_links()))
 
