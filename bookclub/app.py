@@ -17,14 +17,16 @@ def resp(status, data=None):
 @auth_provider.verify_password
 def verify_password(username_or_token, password):
     if auth.verify_auth_token(app, username_or_token):
-        # token approval
-        g.user = 'noufal'
         return True
-    if username_or_token == 'noufal' and password == 'secret':
-        # Try username/password
-        g.user = 'noufal'
+    user = model.db.session.query(model.User).filter(model.User.name  == username_or_token).first()
+    if not user:
+        return False
+
+    if user.verify_password(password):
+        g.user = user
         return True
-    return False
+    else:
+        return False
 
 @app.route('/api/token')
 @auth_provider.login_required
@@ -32,7 +34,7 @@ def get_auth_token():
     token = auth.generate_auth_token(app, g.user)
     return resp('logged in', { 'token': token.decode('ascii') })
 
-@app.route('/api/register', methods=['POST'])
+@app.route('/api/user', methods=['POST'])
 def register():
     username = request.json.get('username')
     password = request.json.get('password')
@@ -46,7 +48,9 @@ def register():
     except exceptions.UserAlreadyExists:
         return resp(status="username {} is already exists".format(username)), 400
     
-@app.route('/api/user/<int:id_>')
+
+@app.route('/api/user/<int:id_>', methods=['GET'])
+@auth_provider.login_required
 def user(id_):
     user = model.db.session.query(model.User).filter(model.User.id == id_).first()
     if user:
@@ -54,7 +58,6 @@ def user(id_):
                                            username = user.name))
     else:
         return resp("user not found"), 404
-        
         
 
 @app.route('/')
