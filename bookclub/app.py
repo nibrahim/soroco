@@ -37,7 +37,6 @@ def verify_password(username_or_token, password):
     user = model.db.session.query(model.User).filter(model.User.name  == username_or_token).first()
     if not user:
         return False
-
     if user.verify_password(password):
         g.user = user
         return True
@@ -52,8 +51,8 @@ def get_auth_token():
 
 @app.route('/api/user', methods=['POST'])
 def register():
-    username = request.json.get('username')
-    password = request.json.get('password')
+    username = request.json and request.json.get('username')
+    password = request.json and request.json.get('password')
     if username is None:
         return resp("username is not provided"), 400
     if password is None:
