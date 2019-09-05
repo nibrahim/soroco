@@ -60,7 +60,3 @@ def user(id_):
         return resp("user not found"), 404
         
 
-@app.route('/')
-@auth_provider.login_required
-def index():
-    return jsonify(dict(status='all good', data=dict(user=g.user)))
