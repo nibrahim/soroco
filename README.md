@@ -13,7 +13,7 @@
 
 # API Endpoints
 ## User management
-* `/signup`
+* `/api/user`
   `POST` - Creates new user and redirects to user page
-* `/login`
-  `POST` - Creates a session and returns an expirable token
+* `/api/token`
+  `GET` -  returns a auth token that will expire
