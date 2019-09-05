@@ -2,6 +2,8 @@
 from sqlalchemy.orm import relationship
 from flask_sqlalchemy import SQLAlchemy
 
+from passlib.apps import custom_app_context as pwd_context
+
 from .app import app
 
 db = SQLAlchemy(app)
@@ -18,6 +20,12 @@ class User(db.Model, BookClubBase):
     pwhash = db.Column(db.String(256))
     shelves = relationship('Shelf', backref='user')
     reviews = relationship('Review', backref='user')
+
+    def hash_password(self, password):
+        self.pwhash = pwd_context.encrypt(password)
+    
+    def verify_password(self, password):
+        return pwd_context.verify(password, self.pwhash)
 
 class Shelf(db.Model, BookClubBase):
     __tablename__ = "bookclub_shelf"
@@ -42,10 +50,4 @@ class Review(db.Model, BookClubBase):
     user_id = db.Column(db.Integer, db.ForeignKey('bookclub_user.id'))
     book_id = db.Column(db.Integer, db.ForeignKey('bookclub_book.id'))
     __table_args__ = (db.UniqueConstraint('user_id', 'book_id', name = '_user_book'),)
-    
-    
-
-
-
-
     
