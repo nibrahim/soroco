@@ -1,4 +1,5 @@
-# from sqlalchemy.ext.declarative import declarative_base
+import random
+
 from sqlalchemy.orm import relationship
 from flask_sqlalchemy import SQLAlchemy
 
@@ -42,6 +43,12 @@ class Book(db.Model, BookClubBase):
     name = db.Column(db.String(50))
     author = db.Column(db.String(70))
     brief = db.Column(db.String(300))
+
+    def create_slug(self):
+        slug = self.name[:3].strip().lower() + self.name[3:].strip().lower() + "_" + str(random.randint(10, 99))
+        slug = slug.replace(" ","")
+        self.slug = slug
+
     
 class Review(db.Model, BookClubBase):
     __tablename__ = "bookclub_review"

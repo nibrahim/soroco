@@ -1,9 +1,9 @@
 from itsdangerous import (TimedJSONWebSignatureSerializer as Serializer, 
                           BadSignature, SignatureExpired)
 
-def generate_auth_token(app, user, expiration = 600):
+def generate_auth_token(app, user_id, expiration = 600):
     s = Serializer(app.config['SECRET_KEY'], expires_in = expiration)
-    return s.dumps({ 'id': user })
+    return s.dumps({ 'id': user_id })
 
 def verify_auth_token(app, token):
     s = Serializer(app.config['SECRET_KEY'])

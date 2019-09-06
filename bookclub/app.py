@@ -46,7 +46,7 @@ def verify_password(username_or_token, password):
 @app.route('/api/token')
 @auth_provider.login_required
 def get_auth_token():
-    token = auth.generate_auth_token(app, g.user)
+    token = auth.generate_auth_token(app, g.user.id)
     return resp('logged in', { 'token': token.decode('ascii') })
 
 @app.route('/api/user', methods=['POST'])
@@ -73,6 +73,73 @@ def user(id_):
                                            username = user.name))
     else:
         return resp("user not found"), 404
+
+@app.route('/api/user/<int:uid>/shelf', methods=['GET'])
+@auth_provider.login_required
+def user_shelves(uid):
+    user = model.db.session.query(model.User).filter(model.User.id == uid).first()
+    shelves = model.db.session.query(model.Shelf).filter(model.Shelf.user == user).all()
+    return resp('shelves', dict(shelves = [dict(id = s.id, name = s.name) for s in shelves]))
+
+@app.route('/api/user/<int:uid>/shelf', methods=['POST'])
+@auth_provider.login_required
+def add_shelf(uid):
+    user = model.db.session.query(model.User).filter(model.User.id == uid).first()
+    if user:
+        name = request.values.get('name')
+        shelf = model.Shelf(user = user, name = name)
+        model.db.session.add(shelf)
+    model.db.session.commit()
+    return resp("shelf created", dict(name = name)), 201, {'Location': url_for('user_shelf', uid = user.id, shelf_id = shelf.id)}
+
+
+@app.route('/api/user/<int:uid>/shelf/<int:shelf_id>', methods=['GET'])
+@auth_provider.login_required
+def user_shelf(uid, shelf_id):
+    user = model.db.session.query(model.User).filter(model.User.id == uid).first()
+    print (shelf_id)
+    shelf = model.db.session.query(model.Shelf).filter(model.Shelf.user == user, model.Shelf.id == shelf_id).first()
+    if shelf:
+        return resp('shelves', dict(shelf = dict(id = shelf.id, name = shelf.name)))
+    else:
+        return resp('no shelf with id {}'.format(shelf_id)), 404
+
+@app.route('/api/book/<string:slug>', methods=['GET'])
+@auth_provider.login_required
+def book(slug):
+    book = model.db.session.query(model.Book).filter(model.Book.slug == slug).first()
+    if book:
+        return resp("book retrieved", dict(slug = book.slug,
+                                           name = book.name,
+                                           author = book.author,
+                                           brief = book.brief))
+    else:
+        return resp("book not found"), 404
+
+
+@app.route('/api/book/', methods=['POST'])
+@auth_provider.login_required
+def add_book():
+    name = request.values.get('name')
+    author = request.values.get('author')
+    brief = request.values.get('brief','')
+    if name is None:
+        return resp("name is not provided"), 400    
+    if author is None:
+        return resp("author is not provided"), 400    
+    book = model.Book(name = name,
+                      author = author,
+                      brief = brief)
+    book.create_slug()
+    model.db.session.add(book)
+    model.db.session.commit()
+    ret = dict(slug = book.slug, name = book.name)
+    return resp("book created", ret), 201, {'Location': url_for('book', slug = book.slug)}
+
+
+    
+    
+    
 
 @app.route("/", methods=['GET'])
 def index():
