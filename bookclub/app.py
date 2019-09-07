@@ -24,9 +24,8 @@ def get_all_links():
     for rule in app.url_map.iter_rules():
         # Filter out rules we can't navigate to in a browser
         # and rules that require parameters
-        if "GET" in rule.methods and has_no_empty_params(rule):
-            url = url_for(rule.endpoint, **(rule.defaults or {}))
-            links.append(url)
+        url = url_for(rule.endpoint, **(rule.defaults or {}))
+        links.append(url)
     return links
 
 
@@ -51,6 +50,7 @@ def get_auth_token():
 
 @app.route('/api/user', methods=['POST'])
 def register():
+    "Register a new user"
     username = request.json and request.json.get('username')
     password = request.json and request.json.get('password')
     if username is None:
@@ -67,6 +67,7 @@ def register():
 @app.route('/api/user/<int:id_>', methods=['GET'])
 @auth_provider.login_required
 def user(id_):
+    "Get user information" 
     user = model.db.session.query(model.User).filter(model.User.id == id_).first()
     if user:
         return resp("user retrieved", dict(id = user.id,
@@ -74,16 +75,17 @@ def user(id_):
     else:
         return resp("user not found"), 404
 
-@app.route('/api/user/<int:uid>/shelf', methods=['GET'])
+@app.route('/api/shelf', methods=['GET'])
 @auth_provider.login_required
-def user_shelves(uid):
-    user = model.db.session.query(model.User).filter(model.User.id == uid).first()
-    shelves = model.db.session.query(model.Shelf).filter(model.Shelf.user == user).all()
+def user_shelves():
+    "Get all shelves"
+    shelves = model.db.session.query(model.Shelf).all()
     return resp('shelves', dict(shelves = [dict(id = s.id, name = s.name) for s in shelves]))
 
-@app.route('/api/user/<int:uid>/shelf', methods=['POST'])
+@app.route('/api/shelf', methods=['POST'])
 @auth_provider.login_required
 def add_shelf(uid):
+    "Add a new shelf"
     user = model.db.session.query(model.User).filter(model.User.id == uid).first()
     if user:
         name = request.values.get('name')
@@ -96,6 +98,7 @@ def add_shelf(uid):
 @app.route('/api/user/<int:uid>/shelf/<int:shelf_id>', methods=['GET'])
 @auth_provider.login_required
 def user_shelf(uid, shelf_id):
+    "Get a single shelf" 
     user = model.db.session.query(model.User).filter(model.User.id == uid).first()
     print (shelf_id)
     shelf = model.db.session.query(model.Shelf).filter(model.Shelf.user == user, model.Shelf.id == shelf_id).first()
@@ -107,6 +110,7 @@ def user_shelf(uid, shelf_id):
 @app.route('/api/book/<string:slug>', methods=['GET'])
 @auth_provider.login_required
 def book(slug):
+    "Get a single book"
     book = model.db.session.query(model.Book).filter(model.Book.slug == slug).first()
     if book:
         return resp("book retrieved", dict(slug = book.slug,
@@ -120,6 +124,7 @@ def book(slug):
 @app.route('/api/book/', methods=['POST'])
 @auth_provider.login_required
 def add_book():
+    "Add a new book"
     name = request.values.get('name')
     author = request.values.get('author')
     brief = request.values.get('brief','')
@@ -136,8 +141,22 @@ def add_book():
     ret = dict(slug = book.slug, name = book.name)
     return resp("book created", ret), 201, {'Location': url_for('book', slug = book.slug)}
 
-
+@app.route('/api/book/<string:slug>/review/<int:rid>', methods=['GET'])
+@auth_provider.login_required
+def get_review(slug, rid):
+    "Get a review"
+    book = model.db.session.query(model.Book).filter(model.Book.slug == slug).first()
+    review = model.db.session.query(model.review).filter(model.Book.slug == slug).first()
+    if book:
+        return resp("book retrieved", dict(slug = book.slug,
+                                           name = book.name,
+                                           author = book.author,
+                                           brief = book.brief))
+    else:
+        return resp("book not found"), 404
     
+    
+
     
     
 
