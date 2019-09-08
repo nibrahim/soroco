@@ -61,7 +61,7 @@ def register():
         uid = bookclub.add_new_user(username, password)
         return resp("registered", dict(username = username)), 201, {'Location': url_for('user', id_ = uid)}
     except exceptions.UserAlreadyExists:
-        return resp(status="username {} is already exists".format(username)), 400
+        return resp(status="username {} already exists".format(username)), 400
     
 
 @app.route('/api/user/<int:id_>', methods=['GET'])
