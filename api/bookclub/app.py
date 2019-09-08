@@ -120,6 +120,13 @@ def book(slug):
     else:
         return resp("book not found"), 404
 
+@app.route('/api/book/', methods=['GET'])
+@auth_provider.login_required
+def get_books():
+    "Returns list of all books"
+    books = model.db.session.query(model.Book).all()
+    return resp("books retrieved", dict(books = [dict(slug = b.slug, name = b.name) for b in books]))
+
 
 @app.route('/api/book/', methods=['POST'])
 @auth_provider.login_required
