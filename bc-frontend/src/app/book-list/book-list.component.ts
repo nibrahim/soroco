@@ -8,18 +8,21 @@ import { BookListService } from './book-list.service';
 })
 export class BookListComponent implements OnInit {
     books: Array<any>;
-
+    cbook: string;
     constructor(
         private blservice: BookListService
     ) { } 
 
 
     ngOnInit() {
+        this.cbook = '';
         this.blservice.getBooks().subscribe(res => {
             console.log(res);
             this.books = res['data']['books'];
         });
-
     }
+
+    
+    
 }
 

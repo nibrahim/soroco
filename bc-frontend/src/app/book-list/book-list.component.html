@@ -1,5 +1,17 @@
-<ul>
-  <li *ngFor="let book of books">
-    <a [routerLink]="['/book', book.slug]" routerLinkActive="active" >{{book.name}}</a>
-  </li>
-</ul>
+<div class="row">
+  <div class="col-4 border-right ">
+    <h3> Books </h3>
+    <ul>
+      <li *ngFor="let book of books">
+        <a [routerLink]="['/book', book.slug]" routerLinkActive="active" >{{book.name}}</a><br/>
+      </li>
+    </ul>
+  </div>
+  <div class="col-8">
+    <p>
+      
+    </p>
+  </div>
+</div>
+
+
