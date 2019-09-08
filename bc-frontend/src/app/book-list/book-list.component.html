@@ -1,5 +1,5 @@
 <ul>
-  <li *ngFor="let room of classrooms">
-    <a [routerLink]="['/book, book.slug]" routerLinkActive="active" >{{book.name}}</a>
+  <li *ngFor="let book of books">
+    <a [routerLink]="['/book', book.slug]" routerLinkActive="active" >{{book.name}}</a>
   </li>
 </ul>

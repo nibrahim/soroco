@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BookListService } from './book-list.service';
 
 @Component({
   selector: 'app-book-list',
@@ -6,10 +7,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./book-list.component.scss']
 })
 export class BookListComponent implements OnInit {
+    books: Array<any>;
 
-  constructor() { }
+    constructor(
+        private blservice: BookListService
+    ) { } 
 
-  ngOnInit() {
-  }
 
+    ngOnInit() {
+        this.blservice.getBooks().subscribe(res => {
+            console.log(res);
+            this.books = res['data']['books'];
+        });
+
+    }
 }
+
