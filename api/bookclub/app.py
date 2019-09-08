@@ -1,9 +1,12 @@
 from flask import Flask, jsonify, g, request, abort, redirect, url_for
 from flask_httpauth import HTTPBasicAuth
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 app.config.from_object('config')
 auth_provider = HTTPBasicAuth()
+
 
 from . import auth
 from . import bookclub
