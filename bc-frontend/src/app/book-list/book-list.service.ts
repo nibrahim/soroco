@@ -12,10 +12,15 @@ export class BookListService {
 
     saveBook(name: string, author:  string, description?: string) {
         const headers = new HttpHeaders().set('Authorization','Basic bm91ZmFsOnNlY3JldA==').set('Content-Type', 'application/x-www-form-urlencoded');
-        console.log(headers);
         return this.httpClient.post('http://127.0.0.1:5000/api/book/', 
                                     `name=${name}&author=${author}&brief=${description}`, // Review
                                     {headers});
+    }
+
+    getBookDetails(slug: string) {
+        const headers = new HttpHeaders().set('Authorization','Basic bm91ZmFsOnNlY3JldA==');
+        return this.httpClient.get(`http://127.0.0.1:5000/api/book/${slug}`, {headers});
+
     }
 
     // getClassroom(id: number) {

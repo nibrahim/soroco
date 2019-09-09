@@ -24,13 +24,14 @@ export class BookListComponent implements OnInit {
     }
     
     save_book() {
-        console.log("Here!");
         const {name, author, description} = this.addbook_form.value;
         this.blservice.saveBook(name, author, description).subscribe(res => {
-            this.books.push(res.data);
+            this.books.push(res['data']);
             this.addbook = false;
         });
     }
+
+
 
 
     ngOnInit() {
