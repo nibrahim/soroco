@@ -7,7 +7,7 @@ export class BookListService {
 
   getBooks() {
       const headers = new HttpHeaders().set('Authorization','Basic bm91ZmFsOnNlY3JldA==');
-      return this.httpClient.get('http://127.0.0.1:5000/api/book/', {headers});
+      return this.httpClient.get('https://soroco-api.herokuapp.com', {headers});
   }
 
   // getClassroom(id: number) {
