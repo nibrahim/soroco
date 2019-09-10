@@ -1,27 +1,26 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BookListComponent } from './book-list/book-list.component';
-import { BookListService } from './book-list/book-list.service';
-import { BookDetailsComponent } from './book-details/book-details.component';
+import { AuthService } from './auth';
+import { CustomRequestOptions } from './custom-request-options';
 
 
 @NgModule({
     declarations: [
         AppComponent,
-        BookListComponent,
-        BookDetailsComponent
     ],
     imports: [
         BrowserModule,
         HttpClientModule,
         AppRoutingModule,
-        ReactiveFormsModule
     ],
-    providers: [BookListService],
+    providers: [
+        AuthService,
+        { provide: HTTP_INTERCEPTORS, useClass: CustomRequestOptions, multi: true }
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

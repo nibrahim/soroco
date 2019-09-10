@@ -1,0 +1,20 @@
+<div class="container d-flex justify-content-center">
+  <div class="col-sm-4 my-5 text-center">
+    <div *ngIf="loginInvalid" class="alert alert-warning alert-yellow" role="alert">
+      {{loginError}}
+    </div>
+    <form class="form-signin" [formGroup]="loginForm" (ngSubmit)="login(loginForm)">
+      <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+      <label for="username" class="sr-only">Username</label>
+      <input type="text" formControlName="username" class="form-control" placeholder="Username" required
+        [ngClass]="{'is-invalid': !loginForm.get('username').valid && isLoading}">
+      <label for="password" class="sr-only">Password</label>
+      <input type="password" formControlName="password" class="form-control" placeholder="Password" required 
+        [ngClass]="{'is-invalid': !loginForm.get('password').valid && isLoading}">
+      <button class="btn btn-lg btn-dark btn-block" type="submit" [disabled]="isProcessing">
+        <span *ngIf="!isProcessing">Sign in</span>
+        <span *ngIf="isProcessing">Signing in..</span>
+      </button>
+    </form>
+  </div>
+</div>

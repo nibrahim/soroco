@@ -1,26 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({providedIn: 'root'})
 export class BookListService {
+    baseUrl: string = environment.apiUrl;
     constructor(private httpClient: HttpClient) { }
 
     getBooks() {
-        const headers = new HttpHeaders().set('Authorization','Basic bm91ZmFsOnNlY3JldA==');
-        return this.httpClient.get('http://127.0.0.1:5000/api/book/', {headers});
+        return this.httpClient.get(`${this.baseUrl}/api/book/`);
     }
 
-    saveBook(name: string, author:  string, description?: string) {
-        const headers = new HttpHeaders().set('Authorization','Basic bm91ZmFsOnNlY3JldA==').set('Content-Type', 'application/x-www-form-urlencoded');
-        return this.httpClient.post('http://127.0.0.1:5000/api/book/', 
-                                    `name=${name}&author=${author}&brief=${description}`, // Review
-                                    {headers});
+    saveBook(name: string, author: string, description?: string) {
+        const headers = new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
+        return this.httpClient.post(`${this.baseUrl}/api/book/`, {name, author, description}, { headers });
     }
 
     getBookDetails(slug: string) {
-        const headers = new HttpHeaders().set('Authorization','Basic bm91ZmFsOnNlY3JldA==');
-        return this.httpClient.get(`http://127.0.0.1:5000/api/book/${slug}`, {headers});
-
+        return this.httpClient.get(`${this.baseUrl}/api/book/${slug}`);
     }
 
     // getClassroom(id: number) {
