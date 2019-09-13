@@ -4,35 +4,30 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-book-list',
-  templateUrl: './book-list.component.html',
-  styleUrls: ['./book-list.component.scss']
+  templateUrl: './shelf-list.component.html',
+  styleUrls: ['./shelf-list.component.scss']
 })
 export class ShelfListComponent implements OnInit {
     shelves: Array<any>;
-    addbook: boolean = false;
-    addbook_form: FormGroup = new FormGroup({
-        name: new FormControl('', Validators.required),
-        author: new FormControl('', Validators.required),
-        description: new FormControl('')
+    addshelf: boolean = false;
+    addshelf_form: FormGroup = new FormGroup({
+        name: new FormControl('', Validators.required)
     });
     constructor(
         private blservice: BookListService
     ) { } 
 
-    add_book()  { 
-        this.addbook = true;
+    add_shelf()  { 
+        this.addshelf = true;
     }
     
-    save_book() {
-        const {name, author, description} = this.addbook_form.value;
-        this.blservice.saveBook(name, author, description).subscribe(res => {
-            this.books.push(res['data']);
-            this.addbook = false;
+    save_shelf() {
+        const name = this.addshelf_form.value.name;
+        this.blservice.saveShelf(name).subscribe(res => {
+            this.shelves.push(res['data']);
+            this.addshelf = false;
         });
     }
-
-
-
 
     ngOnInit() {
         this.blservice.getShelves().subscribe(res => {

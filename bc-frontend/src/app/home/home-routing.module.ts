@@ -12,7 +12,7 @@ const routes: Routes = [
     { path: 'book', component: BookListComponent, children: [
         { path: ':slug', component: BookDetailsComponent }
     ] },
-      { path: 'shelf', component: BookListComponent, children: [
+      { path: 'shelf', component: ShelfListComponent, children: [
           { path: ':number', component: BookDetailsComponent }
       ] }
   ] },

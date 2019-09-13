@@ -1,33 +1,23 @@
 <div class="row">
   <div class="col-4 border-right ">
-    <h3> Books </h3>
+    <h3> Shelves </h3>
     <ul>
       <li *ngFor="let shelf of shelves">
-
-        <a [routerLink]="['/book', book.slug]" routerLinkActive="active" >{{book.name}}</a><br/>
+        <a [routerLink]="['/shelf', shelf.id]" routerLinkActive="active" >{{shelf.name}}</a><br/>
       </li>
     </ul>
-    <button (click)="add_book()" class="btn btn-primary">+</button>
-    <div *ngIf="addbook">
-      <form [formGroup]="addbook_form">
+    <button (click)="add_shelf()" class="btn btn-primary">+</button>
+    <div *ngIf="addshelf">
+      <form [formGroup]="addshelf_form">
         <div class="form-group">
           <label for="name">Name</label>
-          <input formControlName="name" type="text" class="form-control" id="name"  placeholder="Name of book"/>
+          <input formControlName="name" type="text" class="form-control" id="name"  placeholder="Name of Shelf"/>
         </div>
         <div class="form-group">
-          <label for="author">Author</label>
-          <input formControlName="author" type="text" class="form-control" id="author"  placeholder="Author(s) of book"/>
-        </div>
-        <div class="form-group">
-          <label for="description">Description</label>
-          <textarea formControlName="description" class="form-control" id="description" rows="3"></textarea>
-        </div>
-        <div class="form-group">
-          <button (click)="save_book()" class="btn btn-primary">Save book</button>
+          <button (click)="save_shelf()" class="btn btn-primary">Add shelf</button>
         </div>
       </form>
     </div>
-
   </div>
 
   <div class="col-8">
