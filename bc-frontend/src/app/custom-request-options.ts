@@ -28,7 +28,7 @@ export class CustomRequestOptions implements HttpInterceptor {
         if (err.status === 401) {
           this.router.navigate(['/login']);
         }
-        return throwError(caught);
+        return throwError(err);
       })
     );
   }

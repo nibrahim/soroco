@@ -23,6 +23,20 @@ export class BookListService {
         return this.httpClient.get(`${this.baseUrl}/api/book/${slug}`);
     }
 
+    getReviews(slug: string) {
+        return this.httpClient.get(`${this.baseUrl}/api/book/${slug}/review/`);
+    }
+
+    addReview(slug: string, text: string) {
+        const formData = new FormData();
+        formData.append('review', text);
+        return this.httpClient.post(`${this.baseUrl}/api/book/${slug}/review/`, formData);
+    }
+
+    getReview(slug: string, rId: number) {
+        return this.httpClient.get(`${this.baseUrl}/api/book/${slug}/review/${rId}`);
+    }
+
     // getClassroom(id: number) {
     //   return this.httpClient.get(`https://hamon-interviewapi.herokuapp.com/classrooms/${id}?api_key=5619a`);
     // }

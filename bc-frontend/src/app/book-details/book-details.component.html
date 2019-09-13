@@ -1,3 +1,14 @@
-<p>
-  {{this.book|json}}
-</p>
+<pre>{{this.book | json}}</pre>
+
+<div class="input-group mt-3">
+  <input type="text" class="form-control" [formControl]="review" placeholder="Add a review">
+  <div class="input-group-append">
+    <button class="btn btn-outline-primary" [disabled]="isAdding" (click)="onAddReview(review.value)">Button</button>
+  </div>
+</div>
+<p class="text-danger" *ngIf="error"><small>{{error}}</small></p>
+<ul class="list-group">
+  <ng-container *ngFor="let item of reviews">
+    <li class="list-group-item" *ngIf="item.text">{{item.text}}</li>
+  </ng-container>
+</ul>
