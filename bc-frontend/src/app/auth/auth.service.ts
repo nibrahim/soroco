@@ -11,7 +11,7 @@ export class AuthService {
 
   loginUser(username: string, password: string) {
     const headers = new HttpHeaders({ Authorization: `Basic ${btoa(`${username}:${password}`)}` });
-    return this.httpClient.get(`${this.baseUrl}/api/token`, { headers }).toPromise()
+    return this.httpClient.get(`${this.baseUrl}/api/token/`, { headers }).toPromise()
       .then((res: any) => {
         localStorage.setItem('token', res.data.token);
       });
