@@ -1,1 +1,10 @@
-<p>{{shelf | json}}</p>
+<pre>{{shelf | json}}</pre>
+
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let item of shelf?.others">
+    <div class="d-flex justify-content-between">
+      <span>{{item.name}}</span>
+      <button class="btn btn-primary btn-sm" [disabled]="isAdding" (click)="onClickAddToShelf(item.slug)">Add to this shelf</button>
+    </div>
+  </li>
+</ul>

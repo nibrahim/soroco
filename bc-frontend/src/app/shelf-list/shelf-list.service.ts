@@ -21,5 +21,9 @@ export class ShelfListService {
         return this.httpClient.get(`${this.baseUrl}/api/shelf/${id}`);
     }
 
-
+    addBookToShelf(id: number, slug: string) {
+        const formData = new FormData();
+        formData.append('book', slug);
+        return this.httpClient.put(`${this.baseUrl}/api/shelf/${id}`, formData);
+    }
 }
