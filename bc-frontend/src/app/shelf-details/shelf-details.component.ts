@@ -10,6 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 export class ShelfDetailsComponent implements OnInit {
   shelf: any;
   isAdding = false;
+  isRemoving = false;
   number: any;
 
   constructor(
@@ -33,6 +34,16 @@ export class ShelfDetailsComponent implements OnInit {
       this.shelf.others.splice(itemIndex, 1);
       this.shelf.books.push(res.data);
       this.isAdding = false;
+    });
+  }
+
+  onClickDeleteFromShelf(slug: any) {
+    this.isRemoving = true;
+    this.slservice.removeBookFromShelf(this.number as number, slug).subscribe((res: any) => {
+      const itemIndex = this.shelf.books.findIndex(b => b.slug === slug);
+      this.shelf.books.splice(itemIndex, 1);
+      this.shelf.others.push(res.data);
+      this.isRemoving = false;
     });
   }
 

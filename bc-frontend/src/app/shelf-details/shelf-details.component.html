@@ -1,5 +1,15 @@
-<pre>{{shelf | json}}</pre>
+<h4>{{shelf?.name}}</h4>
+<h6>Books</h6>
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let item of shelf?.books">
+    <div class="d-flex justify-content-between">
+      <span>{{item.name}}</span>
+      <button class="btn btn-danger btn-sm" [disabled]="isAdding" (click)="onClickDeleteFromShelf(item.slug)">Delete this from shelf</button>
+    </div>
+  </li>
+</ul>
 
+<h6 class="mt-3">Others</h6>
 <ul class="list-group">
   <li class="list-group-item" *ngFor="let item of shelf?.others">
     <div class="d-flex justify-content-between">

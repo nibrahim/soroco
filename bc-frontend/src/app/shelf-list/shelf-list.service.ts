@@ -26,4 +26,10 @@ export class ShelfListService {
         formData.append('book', slug);
         return this.httpClient.put(`${this.baseUrl}/api/shelf/${id}`, formData);
     }
+
+    removeBookFromShelf(id: number, slug: string) {
+        const formData = new FormData();
+        formData.append('book', slug);
+        return this.httpClient.request(`delete`, `${this.baseUrl}/api/shelf/${id}`, {body: formData});
+    }
 }
