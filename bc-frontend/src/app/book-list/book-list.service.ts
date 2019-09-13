@@ -12,8 +12,11 @@ export class BookListService {
     }
 
     saveBook(name: string, author: string, description?: string) {
-        const headers = new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
-        return this.httpClient.post(`${this.baseUrl}/api/book/`, {name, author, description}, { headers });
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('author', author);
+        formData.append('brief', description);
+        return this.httpClient.post(`${this.baseUrl}/api/book/`, formData);
     }
 
     getBookDetails(slug: string) {
