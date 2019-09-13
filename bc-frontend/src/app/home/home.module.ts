@@ -4,6 +4,7 @@ import { HomeRoutingModule } from './home-routing.module';
 import { BookListComponent } from '../book-list/book-list.component';
 import { ShelfListComponent } from '../shelf-list/shelf-list.component';
 import { BookDetailsComponent } from '../book-details/book-details.component';
+import { ShelfDetailsComponent } from '../shelf-details/shelf-details.component';
 import { BookListService } from '../book-list/book-list.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -19,7 +20,8 @@ import { ReactiveFormsModule } from '@angular/forms';
       HomeComponent,
       BookListComponent,
       BookDetailsComponent,
-      ShelfListComponent
+      ShelfListComponent,
+      ShelfDetailsComponent
   ],
   providers: [BookListService],
 })
