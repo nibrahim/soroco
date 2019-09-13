@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { BookListService } from './shelf-list.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { ShelfListService } from './shelf-list.service';
 
 @Component({
   selector: 'app-book-list',
@@ -9,34 +9,30 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class ShelfListComponent implements OnInit {
     shelves: Array<any>;
-    addshelf: boolean = false;
+    addshelf = false;
     addshelf_form: FormGroup = new FormGroup({
         name: new FormControl('', Validators.required)
     });
     constructor(
-        private blservice: BookListService
-    ) { } 
+        private slservice: ShelfListService
+    ) { }
 
-    add_shelf()  { 
+    add_shelf() {
         this.addshelf = true;
     }
-    
     save_shelf() {
         const name = this.addshelf_form.value.name;
-        this.blservice.saveShelf(name).subscribe(res => {
-            this.shelves.push(res['data']);
+        this.slservice.saveShelf(name).subscribe((res: any) => {
+            this.shelves.push(res.data);
             this.addshelf = false;
         });
     }
 
     ngOnInit() {
-        this.blservice.getShelves().subscribe(res => {
+        this.slservice.getShelves().subscribe((res: any) => {
             console.log(res);
-            this.shelves = res['data']['shelves'];
+            this.shelves = res.data['shelves'];
         });
     }
-
-    
-    
 }
 

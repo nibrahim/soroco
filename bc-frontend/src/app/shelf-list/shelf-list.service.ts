@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
 @Injectable({providedIn: 'root'})
-export class BookListService {
+export class ShelfListService {
     baseUrl: string = environment.apiUrl;
     constructor(private httpClient: HttpClient) { }
 

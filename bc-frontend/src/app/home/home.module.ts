@@ -8,6 +8,7 @@ import { ShelfDetailsComponent } from '../shelf-details/shelf-details.component'
 import { BookListService } from '../book-list/book-list.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ShelfListService } from '../shelf-list/shelf-list.service';
 
 @NgModule({
   imports: [
@@ -23,6 +24,9 @@ import { ReactiveFormsModule } from '@angular/forms';
       ShelfListComponent,
       ShelfDetailsComponent
   ],
-  providers: [BookListService],
+  providers: [
+    BookListService,
+    ShelfListService
+  ],
 })
 export class HomeModule { }
