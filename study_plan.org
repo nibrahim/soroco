@@ -1,0 +1,116 @@
+* Setup
+  - Split audience into 5 groups of 4 people each.
+  - One person creates a github repo and adds the others as
+    collaborators
+  - Different pairs of people should pick up the project between
+    exercises.
+  - Explain larger project and overall aims
+    - Architect program - components and layers
+    - Design APIs (first cut - will modify later)
+    - SQL database design
+    - BAsic front end design
+    - From end components
+    - Front end Implementation
+    - Deployment
+    
+* First day
+** Introduction (all the points inside Setup)
+   - Introduction to domain - user stories
+     - A book club
+     - Users
+       - Create a user
+       - User should be able to login
+     - Books
+       - Decide on fields that a book should have
+       - User should be able to add a books
+       - User should be able to list books
+       - User should be able delete books
+     - Review
+       - User should be able to add a review
+       - A user can't add more a single review to a book
+       - Fetch all reviews for a book
+       - A review cannot be deleted but can be edited.
+       - (Later add fetch all reviews by a user to adjust API)
+     - Shelves
+       - User should be able to create a shelf.
+       - User should be able to delete a shelf.
+       - User should be able to add/remove a book from a shelf
+       - (Later, allow users to share shelves to other users)
+     - Layered architecture
+       - Business logic, models etc.
+     - Flask application layout
+       - Some information on packages, techniques for managing config etc.
+       - Including tests into the package
+       - Wrapping it up with a setup.py and requirements.txt
+       - Command line entry points for various operations
+** Exercise 1 - Overall architecture should be
+   - Decide on how to store data and what the relationships between
+     the various objects. Just use in memory data structures and JSON
+   - HTTP auth (basic, token based) - itsdangeours library
+   - Decide on APIs for this.
+     - Focus on HTTP verbs and deciding APIs
+     - Discussions on HATEOAS and how to decide on resources
+     - Caution against being purist
+   - (No database this time)
+   - CORS
+   - Implement a simple working application using this design
+   - Include tests for the application
+** Discussion of individual projects
+** End result
+   - Working REST API for application along with command line
+     maintenance tools
+* Second day
+** Exercises 2 - Make the application database driven
+   - Decide on database schema for the application
+   - Primary keys, foreign keys, surrogate keys, indices, explain
+     statements
+   - Joins and how they work. 
+   - SQLAlchemy models for the database tables
+     - Some introduction to the "unit of work" pattern used in
+       SQLAlchemy vs. the "active record" style used in Django
+   - Command line programs to create tables and to create fake data
+     using the Faker library.
+   - Ways to optimise query time (indices, materialised views)
+   - Using alembic for migrations
+   - (might overspill into day 2)
+   - Adapt command line tooling to insert dummy data
+** Discussion of individual designs
+** End result
+   Working REST API for application along with command line
+   maintenance tools
+** 
+* Third day
+** Introduction to front end
+   - Markup, bootstrap for a quick UI
+   - Architecture of Angular
+   - Introduction to typescript and how to use types to make your
+     programs better.
+** Exercise 3 - Writing a front end API consumer
+   - Deciding components for front end.
+   - Checking to see how the front end flow works with our API decisions.
+   - Altering the API to increase performance (e.g. multiple results
+     in a single query, piggy backing data on responses etc.)
+   - Writing components based on functionality rather than mapping to
+     APIs/Models.
+   - Testing Angular components
+** Discussions of individual designs
+** End result
+   - Usable SPA web application
+* Final day 
+ This day will be more guided implementation rather than the teams
+ trying out solutions themselves since the best practices for this are
+ fairly clear.
+** Spill over
+   - Handle anythings left over from the previous days
+** Deployment
+   - Basic deployment setup nginx <-> app server <-> DB
+   - Serving front end bundle directly from Nginx
+   - gunicorn, workers, basic performance testing
+   - SSL
+** Dockerisation
+   - Containerising the application
+   - Pros and cons and other issues
+   - Multiple instances of the container to manage load
+** End result
+   - Production app deployed on AWS machine.
+
